@@ -12,7 +12,6 @@ resource "aws_lb_target_group" "my-target-group" {
   port        = 80
   protocol    = "HTTP"
   target_type = "instance"
-#  vpc_id      = "${var.vpc_id}"
   vpc_id      = "${aws_vpc.main.id}"
 
 }
@@ -27,10 +26,6 @@ resource "aws_lb" "my-aws-alb" {
   ]
 
   subnets            = "${aws_subnet.public_subnet.*.id}"
-#   subnets            = "${var.public_cidrs}"
-#  subnets =  [
-#    "${aws_subnet.public_subnet.*.id}"
-#  ]
 
   tags = {
     Name = "my-test-alb"
@@ -82,4 +77,13 @@ resource "aws_security_group_rule" "outbound_all" {
   to_port           = 0
   type              = "egress"
   cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_lb_target_group_attachment" "attach" {
+  target_group_arn = "${aws_lb_target_group.my-target-group.arn}"
+#  target_id        = "${aws_instance.my-test-instance.id}"
+#  target_id        = ["${aws_instance.my-test-instance.*.id}"]
+#  target_id        =  "${element(split(",", join(",", aws_instance.my-test-instance.*.id)), count.index)}"
+  target_id = "${element(aws_instance.my-test-instance.*.id, count.index)}"
+  port             = 80
 }
