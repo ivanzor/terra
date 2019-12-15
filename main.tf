@@ -1,6 +1,6 @@
-provider "aws" {
-   region = "${var.aws_region}"
-}
+#provider "aws" {
+#   region = "${var.aws_region}"
+#}
 
 # Query all avilable Availibility Zone
 data "aws_availability_zones" "available" {}
@@ -133,7 +133,7 @@ resource "aws_security_group_rule" "all_outbound_access" {
 
 
 resource "aws_instance" "my-test-instance" {
-  count = 2
+  count = 1
   ami             = "${data.aws_ami.ubuntu.id}"
   instance_type   = "t3.micro"
   key_name         = "${aws_key_pair.devops.id}"
