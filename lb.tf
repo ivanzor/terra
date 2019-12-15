@@ -26,8 +26,7 @@ resource "aws_lb" "my-aws-alb" {
   ]
 
   subnets = [
-    "${var.subnet1}",
-    "${var.subnet2}",
+    "${element(aws_subnet.public_subnet.*.id,count.index)}"
   ]
 
   tags = {
