@@ -1,3 +1,4 @@
+
 # Query all avilable Availibility Zone
 data "aws_availability_zones" "available" {}
 
@@ -129,7 +130,7 @@ resource "aws_security_group_rule" "all_outbound_access" {
 
 
 resource "aws_instance" "my-test-instance" {
-  count = 1
+  count = 2
   ami             = "${data.aws_ami.ubuntu.id}"
   instance_type   = "t3.micro"
   key_name         = "${aws_key_pair.devops.id}"
@@ -145,4 +146,5 @@ resource "aws_key_pair" "devops" {
   key_name   = "devops"
   public_key = file("~/.ssh/id_rsa.pub")
 }
+
 
