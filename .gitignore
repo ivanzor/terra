@@ -7,3 +7,6 @@
 
 # Sensitive Files
 /variables.tf
+
+#key
+devops.pub
