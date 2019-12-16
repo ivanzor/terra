@@ -81,9 +81,7 @@ resource "aws_security_group_rule" "outbound_all" {
 
 resource "aws_lb_target_group_attachment" "attach" {
   target_group_arn = "${aws_lb_target_group.my-target-group.arn}"
-#  target_id        = "${aws_instance.my-test-instance.id}"
-#  target_id        = ["${aws_instance.my-test-instance.*.id}"]
-#  target_id        =  "${element(split(",", join(",", aws_instance.my-test-instance.*.id)), count.index)}"
-  target_id = "${element(aws_instance.my-test-instance.*.id, count.index)}"
+  count = length(aws_instance.my-test-instance)
+  target_id = aws_instance.my-test-instance[count.index].id 
   port             = 80
 }
