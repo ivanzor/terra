@@ -64,7 +64,7 @@ resource "aws_subnet" "public_subnet" {
 
 # Private Subnet
 resource "aws_subnet" "private_subnet" {
-  count             = 1
+  count             = 2
   cidr_block        = "${var.private_cidrs[count.index]}"
   vpc_id            = "${aws_vpc.main.id}"
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
@@ -84,7 +84,7 @@ resource "aws_route_table_association" "public_subnet_assoc" {
 
 # Associate Private Subnet with Private Route Table
 resource "aws_route_table_association" "private_subnet_assoc" {
-  count          = 1
+  count          = 2
   route_table_id = "${aws_default_route_table.private_route.id}"
   subnet_id      = "${aws_subnet.private_subnet.*.id[count.index]}"
   depends_on     = ["aws_default_route_table.private_route", "aws_subnet.private_subnet"]
