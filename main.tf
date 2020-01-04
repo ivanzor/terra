@@ -130,7 +130,8 @@ resource "aws_security_group_rule" "all_outbound_access" {
 
 
 resource "aws_instance" "my-test-instance" {
-  count = 2
+  count               = "${var.Count}"
+#  count = 2
   ami             = "${data.aws_ami.ubuntu.id}"
   instance_type   = "t3.micro"
   key_name         = "${aws_key_pair.devops.id}"
